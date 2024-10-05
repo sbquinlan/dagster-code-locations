@@ -14,3 +14,4 @@ repos:
   rev: 0.4.18
   hooks:
     - id: uv-export
+      args: ['--no-emit-workspace']
