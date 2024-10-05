@@ -1,7 +1,7 @@
 locations:
 - code_source:
-    module_name: python_modules.fuhnance.definitions
+    module_name: packages.fuhnance.definitions
   location_name: fuhnance
 - code_source:
-    module_name: python_modules.crawler.definitions
+    module_name: packages.crawler.definitions
   location_name: crawler
