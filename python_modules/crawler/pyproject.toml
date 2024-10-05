@@ -1,0 +1,27 @@
+[project]
+name = "crawler"
+version = "0.1.0"
+description = "Contains all the code for crawling sites and watching for changes"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "dagster",
+  "dagster-cloud",
+  "boto3",
+  "pandas",
+  "matplotlib",
+]
+
+[project.optional-dependencies]
+dev = [
+  "dagster-webserver",
+  "pytest",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.dagster]
+module_name = "crawler.definitions"
+code_location_name = "crawler"

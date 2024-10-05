@@ -1,4 +1,7 @@
 locations:
 - code_source:
-    module_name: quickstart_etl.definitions
-  location_name: etf_holdings
+    module_name: python_modules.fuhnance.definitions
+  location_name: fuhnance
+- code_source:
+    module_name: python_modules.crawler.definitions
+  location_name: crawler
