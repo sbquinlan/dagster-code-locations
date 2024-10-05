@@ -12,7 +12,7 @@ dependencies = [
 
 [tool.dagster]
 modules = [
-  { type = "module", name = "crawler.definitions" }, 
+  { type = "module", name = "crawler.definitions" },
   { type = "module", name = "fuhnance.definitions" }
 ]
 
@@ -20,6 +20,7 @@ modules = [
 package = false
 dev-dependencies = [
   "dagster-webserver>=1.8.10",
+  "pre-commit>=4.0.0",
   "pytest>=8.3.3",
   "ruff>=0.6.9",
 ]
