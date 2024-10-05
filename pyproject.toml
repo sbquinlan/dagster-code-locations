@@ -1,0 +1,44 @@
+[project]
+name = "dagster-code-locations"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "fuhnance",
+  "crawler",
+  "pytest>=8.3.3",
+  "dagster>=1.8.10",
+  "dagster-cloud>=1.8.10",
+]
+
+[tool.dagster]
+modules = [
+  { type = "module", name = "crawler.definitions" }, 
+  { type = "module", name = "fuhnance.definitions" }
+]
+
+[tool.uv]
+package = false
+dev-dependencies = [
+  "dagster-webserver>=1.8.10",
+  "pytest>=8.3.3",
+  "ruff>=0.6.9",
+]
+
+[tool.uv.sources]
+fuhnance = { workspace = true }
+crawler = { workspace = true }
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.pyright]
+include = ["fuhnance", "crawler"]
+
+reportMissingImports = "error"
+reportMissingTypeStubs = "error"
+
+pythonVersion = "3.11"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
