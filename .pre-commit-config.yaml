@@ -8,11 +8,11 @@ repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
   rev: v0.6.9
   hooks:
-    - id: ruff
-    - id: ruff-format
+  - id: ruff
+  - id: ruff-format
 - repo: https://github.com/astral-sh/uv-pre-commit
   rev: 0.4.18
   hooks:
-    - id: uv-export
-      args:
-        - --no-emit-workspace
+  - id: uv-export
+    args:
+      - --no-emit-workspace
