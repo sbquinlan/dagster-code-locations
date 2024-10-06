@@ -9,10 +9,21 @@ repos:
   rev: v0.6.9
   hooks:
   - id: ruff
+    files: ^packages/
+    types:
+    - file
+    - python
   - id: ruff-format
+    files: ^packages/
+    types:
+    - file
+    - python
 - repo: https://github.com/astral-sh/uv-pre-commit
   rev: 0.4.18
   hooks:
   - id: uv-export
+    always_run: true
     args:
-      - --no-emit-workspace
+    - --frozen
+    - --no-emit-workspace
+    - --output-file=requirements.txt
