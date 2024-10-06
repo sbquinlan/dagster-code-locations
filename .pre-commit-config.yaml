@@ -22,10 +22,14 @@ repos:
   rev: 0.4.18
   hooks:
   - id: pip-compile
-    always_run: true
-    files: ^packages/.*/pyproject\.toml$
-    types: [file, toml]
+    files: ^packages/crawler/pyproject.toml$
     args:
-    - pyproject.toml
+    - packages/crawler/pyproject.toml
     - --output-file
-    - requirements.txt
+    - packages/crawler/requirements.txt
+  - id: pip-compile
+    files: ^packages/fuhnance/pyproject.toml$
+    args:
+    - packages/fuhnance/pyproject.toml
+    - --output-file
+    - packages/fuhnance/requirements.txt
