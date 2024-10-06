@@ -4,6 +4,8 @@ version = "0.1.0"
 requires-python = ">=3.11"
 description = "Contains all the code for crawling sites and watching for changes"
 dependencies = [
+  "dagster>=1.8.10",
+  "dagster-cloud>=1.8.10",
   "boto3",
   "pandas",
   "matplotlib",
