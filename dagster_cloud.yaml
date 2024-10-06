@@ -1,11 +1,11 @@
 locations:
 - code_source:
-    package_name: fuhnance
     module_name: fuhnance.definitions
   location_name: fuhnance
-  working_directory: ./packages
+  build:
+    directory: ./packages/fuhnance
 - code_source:
-    package_name: crawler
     module_name: crawler.definitions
   location_name: crawler
-  working_directory: ./packages
+  build:
+    directory: ./packages/crawler
