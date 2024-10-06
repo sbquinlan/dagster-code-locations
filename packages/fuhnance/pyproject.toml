@@ -1,6 +1,7 @@
 [project]
 name = "fuhnance"
 version = "0.1.0"
+requires-python = ">=3.11"
 description = "Contains all the code for crawling and calculating finance data"
 dependencies = [
   "boto3",
