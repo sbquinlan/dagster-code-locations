@@ -6,11 +6,19 @@ description = "Contains all the code for crawling and calculating finance data"
 dependencies = [
   "dagster>=1.8.10",
   "dagster-cloud>=1.8.10",
-  "boto3",
-  "pandas",
-  "matplotlib",
+  "pandas>=2.2.3",
+  "common",
+  "dagster-aws>=0.24.10",
 ]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.uv.sources]
+common = { workspace = true }
+
+[tool.uv]
+dev-dependencies = [
+  "boto3-stubs>=1.35.36",
+]

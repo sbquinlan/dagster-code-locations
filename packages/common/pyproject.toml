@@ -1,21 +1,18 @@
 [project]
-name = "crawler"
+name = "common"
 version = "0.1.0"
 requires-python = ">=3.11"
-description = "Contains all the code for crawling sites and watching for changes"
+description = "Contains code common to the entire project"
 dependencies = [
+  "boto3>=1.35.34",
+  "dagster-aws>=0.24.10",
   "dagster>=1.8.10",
-  "dagster-cloud>=1.8.10",
-  "pandas>=2.2.3",
-  "common",
+  "pydantic>=2.9.2",
 ]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-
-[tool.uv.sources]
-common = { workspace = true }
 
 [tool.uv]
 dev-dependencies = [

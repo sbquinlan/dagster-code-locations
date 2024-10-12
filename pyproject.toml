@@ -3,6 +3,7 @@ name = "dagster-code-locations"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
+  "common",
   "fuhnance",
   "crawler",
 ]
@@ -23,6 +24,7 @@ dev-dependencies = [
 ]
 
 [tool.uv.sources]
+common = { workspace = true }
 fuhnance = { workspace = true }
 crawler = { workspace = true }
 
@@ -30,7 +32,7 @@ crawler = { workspace = true }
 members = ["packages/*"]
 
 [tool.pyright]
-include = ["fuhnance", "crawler"]
+include = ["common", "fuhnance", "crawler"]
 
 reportMissingImports = "error"
 reportMissingTypeStubs = "error"
