@@ -1,30 +1,22 @@
 import warnings
 from pathlib import Path
 
-from dagster import (
-    Definitions,
-    ExperimentalWarning,
-    ScheduleDefinition,
-    define_asset_job,
-    link_code_references_to_git,
-    load_assets_from_package_module,
-    with_source_code_references,
-)
+import dagster as dg
+from common.aws import AWSResource  # type: ignore
+from common.sns import SNSResource  # type: ignore
 from dagster._core.definitions.metadata.source_code import AnchorBasedFilePathMapping
+
+from crawler.assets.art import jeremy_miranda  # type: ignore
 
 from . import assets
 
-warnings.filterwarnings("ignore", category=ExperimentalWarning)
+warnings.filterwarnings("ignore", category=dg.ExperimentalWarning)
 
-daily_refresh_schedule = ScheduleDefinition(
-    job=define_asset_job(name="all_assets_job"), cron_schedule="0 0 * * *"
+my_assets = dg.with_source_code_references(
+    dg.load_assets_from_package_module(assets),
 )
 
-my_assets = with_source_code_references(
-    load_assets_from_package_module(assets),
-)
-
-my_assets = link_code_references_to_git(
+my_assets = dg.link_code_references_to_git(
     assets_defs=my_assets,
     git_url="https://github.com/sbquinlan/dagster-code-locations/",
     git_branch="main",
@@ -34,7 +26,20 @@ my_assets = link_code_references_to_git(
     ),
 )
 
-defs = Definitions(
+aws_resource = AWSResource(
+    region_name=dg.EnvVar("AWS_REGION"),
+    aws_access_key_id=dg.EnvVar("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=dg.EnvVar("AWS_SECRET_ACCESS_KEY"),
+)
+
+defs = dg.Definitions(
     assets=my_assets,
-    schedules=[daily_refresh_schedule],
+    sensors=[jeremy_miranda],
+    resources={
+        "aws": aws_resource,
+        "sns": SNSResource(
+            aws=aws_resource,
+            topic_arn=dg.EnvVar("SNS_TOPIC_ARN"),
+        ),
+    },
 )

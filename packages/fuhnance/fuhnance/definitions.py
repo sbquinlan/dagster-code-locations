@@ -7,10 +7,6 @@ from dagster_aws.s3 import S3Resource
 
 from . import assets
 
-daily_refresh_schedule = dg.ScheduleDefinition(
-    job=dg.define_asset_job(name="all_assets_job"), cron_schedule="0 0 * * *"
-)
-
 my_assets = dg.with_source_code_references(
     dg.load_assets_from_package_module(assets),
 )
@@ -34,7 +30,7 @@ s3_client = S3Resource(
 
 defs = dg.Definitions(
     assets=my_assets,
-    schedules=[daily_refresh_schedule],
+    schedules=[],
     resources={
         "oci_s3_client": s3_client,
         "oci_s3_io_manager": S3IOManager(

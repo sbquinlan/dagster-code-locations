@@ -6,6 +6,8 @@ alembic==1.13.3
     # via dagster
 annotated-types==0.7.0
     # via pydantic
+beautifulsoup4==4.12.3
+    # via crawler (packages/crawler/pyproject.toml)
 boto3==1.35.34
     # via
     #   common
@@ -79,15 +81,11 @@ markupsafe==2.1.5
     #   mako
 mdurl==0.1.2
     # via markdown-it-py
-numpy==2.1.2
-    # via pandas
 packaging==24.1
     # via
     #   dagster
     #   dagster-aws
     #   dagster-cloud-cli
-pandas==2.2.3
-    # via crawler (packages/crawler/pyproject.toml)
 pex==2.20.2
     # via dagster-cloud
 prompt-toolkit==3.0.36
@@ -113,14 +111,12 @@ python-dateutil==2.9.0.post0
     #   botocore
     #   croniter
     #   github3-py
-    #   pandas
 python-dotenv==1.0.1
     # via dagster
 pytz==2024.2
     # via
     #   croniter
     #   dagster
-    #   pandas
 pyyaml==6.0.2
     # via
     #   dagster
@@ -148,6 +144,8 @@ shellingham==1.5.4
     # via typer
 six==1.16.0
     # via python-dateutil
+soupsieve==2.6
+    # via beautifulsoup4
 sqlalchemy==2.0.35
     # via
     #   alembic
@@ -174,8 +172,6 @@ typing-extensions==4.12.2
     #   pydantic-core
     #   sqlalchemy
     #   typer
-tzdata==2024.2
-    # via pandas
 universal-pathlib==0.2.5
     # via dagster
 uritemplate==4.1.1

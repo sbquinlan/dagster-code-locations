@@ -6,8 +6,8 @@ description = "Contains all the code for crawling sites and watching for changes
 dependencies = [
   "dagster>=1.8.10",
   "dagster-cloud>=1.8.10",
-  "pandas>=2.2.3",
   "common",
+  "beautifulsoup4==4.12.3",
 ]
 
 [build-system]
@@ -18,6 +18,4 @@ build-backend = "hatchling.build"
 common = { workspace = true }
 
 [tool.uv]
-dev-dependencies = [
-  "boto3-stubs>=1.35.36",
-]
+dev-dependencies = []
