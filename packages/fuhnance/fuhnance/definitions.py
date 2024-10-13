@@ -1,9 +1,9 @@
 from pathlib import Path
 
 import dagster as dg
+from common.s3 import S3IOManager  # type: ignore
 from dagster._core.definitions.metadata.source_code import AnchorBasedFilePathMapping
 from dagster_aws.s3 import S3Resource
-from common.s3 import S3IOManager  # type: ignore
 
 from . import assets
 

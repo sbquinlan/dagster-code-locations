@@ -1,8 +1,9 @@
-from typing import Any
 from io import BytesIO
+from typing import Any
+
 import dagster as dg
-from dagster_aws.s3 import S3Resource, PickledObjectS3IOManager
 from dagster._utils.cached_method import cached_method
+from dagster_aws.s3 import PickledObjectS3IOManager, S3Resource
 from pydantic import Field
 
 

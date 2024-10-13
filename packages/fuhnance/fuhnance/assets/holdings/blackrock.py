@@ -1,9 +1,12 @@
-from functools import partial
 import re
+from functools import partial
+from io import BytesIO
+from itertools import islice
+from typing import List
+
+import dagster as dg
 import pandas as pd
 import requests
-from io import BytesIO
-import dagster as dg
 
 URI_BASE = "https://www.blackrock.com"
 HOLDINGS_REGEX = re.compile(
@@ -74,28 +77,19 @@ def scrape(context: dg.AssetExecutionContext):
     return _df_to_csv_bytes(df)
 
 
-@blackrock_asset()
-def funds(context: dg.AssetExecutionContext, scrape: BytesIO):
+@dg.op(out=dg.DynamicOut())
+def funds(context: dg.OpExecutionContext, scrape: BytesIO):
     funds = _csv_bytes_to_df(scrape)
     # create a new dataframe with only ticker, isin, cusip, and name
-    funds = funds[["localExchangeTicker", "fundName"]]
-    funds.columns = ["ticker", "name"]
-    funds["isin"] = ""
-    funds["cusip"] = ""
+    funds = funds[["localExchangeTicker", "fundName", "productPageUrl"]]
+    funds.columns = ["ticker", "name", "url"]
     funds["ticker"] = funds["ticker"].str.strip().str.upper()
     funds["name"] = funds["name"].str.strip()
     funds.dropna(subset=["ticker"], inplace=True)
-
-    context.log_event(
-        dg.AssetObservation(
-            asset_key=context.asset_key,
-            metadata={
-                "num_records": len(funds),
-                "preview": dg.MetadataValue.md(funds.head().to_markdown()),
-            },
-        )
+    yield from (
+        dg.DynamicOutput(row, mapping_key=row["ticker"])
+        for _, row in islice(funds.iterrows(), 5)
     )
-    return _df_to_csv_bytes(funds)
 
 
 def _get_holdings_uri(product_url: str):
@@ -108,10 +102,12 @@ def _get_holdings_uri(product_url: str):
     return matches[0] if matches else None
 
 
-def _get_holdings(fund_record):
-    holdings_uri = _get_holdings_uri(fund_record["productPageUrl"])
+@dg.op()
+def get_holdings(context: dg.OpExecutionContext, fund_record):
+    print(f"Getting holdings for {fund_record}")
+    holdings_uri = _get_holdings_uri(fund_record["url"])
     if not holdings_uri:
-        return []
+        return None
 
     resp = requests.get(f"{URI_BASE}{holdings_uri}")
     resp.raise_for_status()
@@ -124,19 +120,15 @@ def _get_holdings(fund_record):
     return holdings
 
 
-@blackrock_asset()
-def holdings(context: dg.AssetExecutionContext, funds: BytesIO):
-    df = _csv_bytes_to_df(funds)
-    df = df.apply(_get_holdings, axis=1)
-    df.to_csv("data/holdings.csv", index=False)
+@dg.op()
+def concat_holdings(context: dg.OpExecutionContext, all_holdings):
+    filtered = [df for df in all_holdings if df is not None]
+    if len(filtered) == 0:
+        return None
+    return _df_to_csv_bytes(pd.concat(filtered))
 
-    context.log_event(
-        dg.AssetObservation(
-            asset_key=context.asset_key,
-            metadata={
-                "num_records": len(df),
-                "preview": dg.MetadataValue.md(df.head().to_markdown()),
-            },
-        )
-    )
-    return _df_to_csv_bytes(df)
+
+@dg.graph_asset(key_prefix="blackrock", group_name="blackrock")
+def holdings(scrape: BytesIO):
+    all_holdings = funds(scrape).map(get_holdings).collect()
+    return concat_holdings(all_holdings)
