@@ -39,9 +39,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           path: project-repo
+
       - name: Add REPO_ROOT env var
         if: steps.prerun.outputs.result == 'pex-deploy'
         run: echo "REPO_ROOT=${{ env.GITHUB_WORKSPACE }}/project-repo" >> $GITHUB_ENV
+
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1

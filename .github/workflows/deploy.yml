@@ -42,6 +42,10 @@ jobs:
           ref: ${{ github.head_ref }}
           path: project-repo
 
+      - name: Add REPO_ROOT env var
+        if: steps.prerun.outputs.result == 'pex-deploy'
+        run: echo "REPO_ROOT=${{ env.GITHUB_WORKSPACE }}/project-repo" >> $GITHUB_ENV
+
       - name: Python Executable Deploy
         if: steps.prerun.outputs.result == 'pex-deploy'
         uses: dagster-io/dagster-cloud-action/actions/build_deploy_python_executable@v0.1
@@ -51,7 +55,6 @@ jobs:
           python_version: "${{ env.PYTHON_VERSION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO_ROOT: "$GITHUB_WORKSPACE/project-repo"
 
   dagster_cloud_docker_deploy:
     name: Docker Deploy
@@ -67,6 +70,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
+      - name: Add REPO_ROOT env var
+        if: steps.prerun.outputs.result == 'pex-deploy'
+        run: echo "REPO_ROOT=${{ env.GITHUB_WORKSPACE }}" >> $GITHUB_ENV
       - name: Build and deploy to Dagster Cloud serverless
         uses: dagster-io/dagster-cloud-action/actions/serverless_prod_deploy@v0.1
         with:
@@ -78,4 +84,3 @@ jobs:
           organization_id: ${{ secrets.ORGANIZATION_ID }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO_ROOT: "$GITHUB_WORKSPACE/project-repo"
