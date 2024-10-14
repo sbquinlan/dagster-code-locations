@@ -49,6 +49,7 @@ jobs:
           python_version: "${{ env.PYTHON_VERSION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_ROOT: "$GITHUB_WORKSPACE/project-repo"
 
   dagster_cloud_docker_deploy:
     name: Docker Deploy
@@ -75,3 +76,4 @@ jobs:
           organization_id: ${{ secrets.ORGANIZATION_ID }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_ROOT: "$GITHUB_WORKSPACE/project-repo"

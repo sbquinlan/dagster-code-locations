@@ -29,11 +29,15 @@ repos:
     files: ^packages/crawler/pyproject.toml$
     args:
     - packages/crawler/pyproject.toml
+    - --override
+    - overrides.txt
     - --output-file
     - packages/crawler/requirements.txt
   - id: pip-compile
     files: ^packages/fuhnance/pyproject.toml$
     args:
     - packages/fuhnance/pyproject.toml
+    - --override
+    - overrides.txt
     - --output-file
     - packages/fuhnance/requirements.txt
