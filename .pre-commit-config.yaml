@@ -22,22 +22,22 @@ repos:
     types:
     - file
     - python
-- repo: https://github.com/astral-sh/uv-pre-commit
-  rev: 0.4.18
-  hooks:
-  - id: pip-compile
-    files: ^packages/crawler/pyproject.toml$
-    args:
-    - packages/crawler/pyproject.toml
-    - --override
-    - overrides.txt
-    - --output-file
-    - packages/crawler/requirements.txt
-  - id: pip-compile
-    files: ^packages/fuhnance/pyproject.toml$
-    args:
-    - packages/fuhnance/pyproject.toml
-    - --override
-    - overrides.txt
-    - --output-file
-    - packages/fuhnance/requirements.txt
+# - repo: https://github.com/astral-sh/uv-pre-commit
+#   rev: 0.4.18
+#   hooks:
+#   - id: pip-compile
+#     files: ^packages/crawler/pyproject.toml$
+#     args:
+#     - packages/crawler/pyproject.toml
+#     - --override
+#     - overrides.txt
+#     - --output-file
+#     - packages/crawler/requirements.txt
+#   - id: pip-compile
+#     files: ^packages/fuhnance/pyproject.toml$
+#     args:
+#     - packages/fuhnance/pyproject.toml
+#     - --override
+#     - overrides.txt
+#     - --output-file
+#     - packages/fuhnance/requirements.txt
