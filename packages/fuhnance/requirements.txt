@@ -24,7 +24,7 @@ click==8.1.7
     #   typer
 coloredlogs==14.0
     # via dagster
-common @ file://${REPO_ROOT}/packages/common
+common @ file://${REPO_ROOT}/packages/common/
     # via
     #   --override overrides.txt
     #   fuhnance (packages/fuhnance/pyproject.toml)
