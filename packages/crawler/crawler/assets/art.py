@@ -37,6 +37,18 @@ def _get_artworks():
     return artworks
 
 
+"""
+what I want to do is create a sensor that will:
+- use some op to get the artworks
+- hash that and compare it to the cursor
+- if it's different yield a job that:
+    - loads an asset (previous state of asset)
+    - compares the new state to the old state
+    - sends an email with the difference
+    - materializes the asset with the new state
+"""
+
+
 def _hash_artworks(artworks):
     names = set(art["title"] for art in artworks)
     names = "".join(sorted(names))
@@ -54,7 +66,8 @@ def jeremy_miranda(context: dg.SensorEvaluationContext):
         return dg.SkipReason("No new art.")
 
     body = "\n".join(
-        f"{art['title']} - {art['link']} - {art['sold']}" for art in artworks
+        f"{art['title']} - {JEREMY_MIRANDA_URL}{art['link']} - {art['sold']}"
+        for art in artworks
     )
 
     yield dg.RunRequest(
